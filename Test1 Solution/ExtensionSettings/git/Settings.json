@@ -2,5 +2,5 @@
 	"serverType": "github",
 	"gitURL": "https://github.com/wakawanda",
 	"gitEmail": "mikebeatty.us@gmail.com",
-	"gitIsPrivateRepository": "true"
+	"gitIsPrivateRepository": "false"
 }
