@@ -15,7 +15,7 @@
 
 		
 		<meta name="WAF.config.datasources" data-type="dataSource" data-source-type="dataClass" data-source="Dockets" data-lib="WAF" data-id="dockets" data-dataType="string" data-autoLoad="true" content="dockets"/>
-		<meta name="WAF.config.datasources" data-type="dataSource" data-source-type="dataClass" data-source="Disclosures" data-lib="WAF" data-initialQueryString="Assoc_Users_D_Initials = 'MKA'" data-initialOrderBy="Dockets_D_DocketNumber DESC" data-id="disclosures" data-dataType="string" data-autoLoad="true" content="disclosures"/>
+		<meta name="WAF.config.datasources" data-type="dataSource" data-source-type="dataClass" data-source="Disclosures" data-lib="WAF" data-id="disclosures" data-dataType="string" data-autoLoad="true" data-initialQueryString="Assoc_Users_D_Initials = 'MKA'" content="disclosures"/>
 		</head>
 	<body id="waf-body" data-workspace-width="0" data-workspace-orientation="portrait" data-workspace-height="0" data-workspace-device="desktop" data-viewport-width="device-width" data-viewport-minimum-scale="1.0" data-viewport-maximum-scale="1.0" data-viewport-initial-scale="1.0" data-type="document" data-theme="light" data-rpc-validation="false" data-rpc-namespace="rpc" data-rpc-activate="false" data-platform="desktop" data-lib="WAF" data-group="[]" data-entire-model="false" data-apple-meta-tags-status-bar="default" class="waf-theme light" style="bottom:NaNpx;right:NaNpx;visibility:hidden;">
 		<div id="tabView1" data-type="tabView" data-padding="5" data-menu-position="top left" data-linked-tag="menuBar1,container1,container2" data-lib="WAF" data-hideonload="false" data-constraint-top="true" data-constraint-left="true" class="waf-widget waf-tabView">
@@ -29,9 +29,12 @@
  	 		</ul>
  		<div id="container1" data-type="container" data-linked-tag="menuItem1" data-lib="WAF" data-label-position="top" data-label="" data-context="['protected','allowDrop','allowBind','allowPaste']" data-constraint-top="true" data-constraint-right="true" data-constraint-left="true" data-constraint-bottom="true" class="waf-widget waf-container waf-container-level-0 waf-level-0 waf-tabView-container-level-0">
 	 	 	<div id="disclosureGrid" data-type="dataGrid" data-selection-mode="multiple" data-readOnly="true" data-lib="WAF" data-label-position="top" data-label="" data-footer-text="item(s)" data-display-error="true" data-constraint-top="true" data-constraint-right="false" data-constraint-left="true" data-constraint-bottom="false" data-column="[{'sourceAttID':'Dockets_D_DocketNumber','colID':'Dockets_D_DocketNumber','width':'91','title':'Docket%20No.'},{'sourceAttID':'Title','colID':'Title','width':'415','title':'Title'},{'sourceAttID':'Assoc_Users_D_Initials','colID':'Assoc_Users_D_Initials','width':'79','title':'Assoc'},{'sourceAttID':'DisclosureStatus','colID':'DisclosureStatus','width':'107','title':'Status'}]" data-binding="disclosures" class="waf-widget waf-dataGrid"></div>
+ 	 			<div id="disclosureDetail" data-type="container" data-lib="WAF" data-label-position="top" data-label="" data-hideonload="true" data-constraint-top="true" data-constraint-right="false" data-constraint-left="true" data-constraint-bottom="false" class="waf-widget waf-container waf-container-level-1 waf-level-1">
+ 	 	 		
+ 	 	 	</div>
  	 			</div>
  		<div id="container2" data-type="container" data-linked-tag="menuItem2" data-lib="WAF" data-label-position="top" data-label="" data-context="['protected','allowDrop','allowBind','allowPaste']" data-constraint-top="true" data-constraint-right="true" data-constraint-left="true" data-constraint-bottom="true" class="waf-widget waf-container waf-container-level-0 waf-level-0 waf-tabView-container-level-0">
-	 	 	<div id="dataGrid4" data-type="dataGrid" data-selection-mode="multiple" data-readOnly="true" data-lib="WAF" data-label-position="top" data-label="" data-footer-text="item(s)" data-footer-hide="false" data-display-error="true" data-constraint-top="true" data-constraint-right="false" data-constraint-left="true" data-constraint-bottom="false" data-column="[{'sourceAttID':'DocketNumber','colID':'DocketNumber','width':'150','title':'Docket%20No.'},{'sourceAttID':'Title','colID':'Title','width':'463','title':'Title'},{'sourceAttID':'Status','colID':'Status','width':'150','title':'Status'}]" data-binding="dockets" class="waf-widget waf-dataGrid"></div>
+	 	 	<div id="dataGrid4" data-type="dataGrid" data-selection-mode="multiple" data-readOnly="false" data-lib="WAF" data-label-position="top" data-label="" data-footer-text="item(s)" data-footer-hide="false" data-display-error="true" data-constraint-top="true" data-constraint-right="false" data-constraint-left="true" data-constraint-bottom="false" data-column="[{'sourceAttID':'Dockets_D_DocketNumber','colID':'Dockets_D_DocketNumber','width':'98','title':'Docket%20No.'},{'sourceAttID':'Title','colID':'Title','width':'538','title':'Title'},{'sourceAttID':'Assoc_Users_D_Initials','colID':'Assoc_Users_D_Initials','width':'76','title':'Assoc'}]" data-binding="disclosures" class="waf-widget waf-dataGrid"></div>
  	 			</div>
  		</div>
 				<div id="containerDisclosureFilter" data-type="container" data-lib="WAF" data-label-position="top" data-label="" data-constraint-top="true" data-constraint-left="true" class="waf-widget waf-container waf-container-level-0 waf-level-0">
@@ -50,6 +53,7 @@
 	 	<div id="richText4" data-type="richText" data-target="_blank" data-plainText="true" data-overflow="Hidden" data-lib="WAF" data-label-position="left" data-label="" data-constraint-top="true" data-constraint-right="false" data-constraint-left="true" data-constraint-bottom="false" data-autoWidth="true" class="waf-widget waf-richText">Filters</div>
  	</div>
 		<div id="richText5" data-type="richText" data-target="_blank" data-plainText="true" data-overflow="Hidden" data-lib="WAF" data-label-position="left" data-label="" data-constraint-top="true" data-constraint-left="true" data-autoWidth="false" class="waf-widget waf-richText">Change Preferences</div>
+	<div id="dataComponent" data-type="component" data-path="/components/disclosures.waComponent" data-lib="WAF" data-constraint-top="true" data-constraint-right="false" data-constraint-left="true" data-constraint-bottom="false" class="waf-widget waf-component"></div>
 		<script type="text/javascript" src="/waLib/WAF/Loader.js"></script>
-	</body>
+</body>
 </html>

@@ -2,22 +2,37 @@
 WAF.onAfterInit = function onAfterInit() {// @lock
 
 // @region namespaceDeclaration// @startlock
-	var dataGrid3 = {};	// @dataGrid
+	var button4 = {};	// @button
+	var disclosureGrid = {};	// @dataGrid
 	var disclosuresQuery = {};	// @button
 	var disclosuresMine = {};	// @checkbox
-	var disclosuresNew2 = {};	// @checkbox
+	var disclosuresNew = {};	// @checkbox
 	var disclosuresAll = {};	// @checkbox
-	var disclosuresNew2 = {};	// @checkbox
+	var disclosuresNew = {};	// @checkbox
 	var checkbox2 = {};	// @checkbox
-	var disclosuresNew2 = {};	// @checkbox
+	var disclosuresNew = {};	// @checkbox
 	var menuItem2 = {};	// @menuItem
 // @endregion// @endlock
 
 // eventHandlers// @lock
 
-	dataGrid3.onRowDraw = function dataGrid3_onRowDraw (event)// @startlock
+	button4.click = function button4_click (event)// @startlock
+	{// @endlock
+
+		$$('disclosureGrid').reduceToSelected();
+	};// @lock
+
+	disclosureGrid.onRowDblClick = function disclosureGrid_onRowDblClick (event)// @startlock
+	{// @endlock
+		$$("disclosureGrid").hide();
+		$$("disclosureDetail").show();
+	};// @lock
+
+	disclosureGrid.onRowDraw = function disclosureGrid_onRowDraw (event)// @startlock
 	{// @endlock
 		var disclosureStatusVar = event.row.cells[3].value;
+		
+		if(disclosureStatusVar != null){
 		
 		if(event.row.cells[3].value == 'New') {
 			event.row.cells[3].insideCell.html('<img src="/images/flag_red.png"/>New');
@@ -28,6 +43,7 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 		}else if(disclosureStatusVar.indexOf("Docket") != -1){
 			event.row.cells[3].insideCell.html('<img src="/images/flag_green.png"/>Docket');
 		}
+	}
 	};// @lock
 
 	disclosuresQuery.click = function disclosuresQuery_click (event)// @startlock
@@ -37,23 +53,22 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 
 	disclosuresMine.click = function disclosuresMine_click (event)// @startlock
 	{// @endlock
-		sources.disclosures.query('Assoc_Users_D_Initials = :1','MKA')
-	};// @lock
-
-	disclosuresNew2.click = function disclosuresNew2_click (event)// @startlock
-	{// @endlock
-		if($$('disclosuresNew2').getValue()){
-				sources.disclosures.query('DisclosureStatus =:1','New');
-			}
-			else{
-				sources.disclosures.all();
-			}
+		if($$('disclosuresMine').getValue()){
+			$$('disclosuresAll').setValue(false);
+			sources.disclosures.query('Assoc_Users_D_Initials = :1','MKA');
+		}else if($$('disclosuresNew').getValue()){
+			sources.disclosures.query('DisclosureStatus =:1','New');
+		}else if($$('disclosuresAll').getValue()){
+			sources.disclosures.all();
+		}
 	};// @lock
 
 	disclosuresAll.click = function disclosuresAll_click (event)// @startlock
 	{// @endlock
+		$$('disclosuresNew').setValue(false);
+		$$('disclosuresMine').setValue(false);
 		sources.disclosures.all();
-		$$('disclosuresNew2').setValue(false);
+		
 		
 	};// @lock
 
@@ -62,13 +77,26 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 		// Add your code here
 	};// @lock
 
-	disclosuresNew2.click = function disclosuresNew2_click (event)// @startlock
+	disclosuresNew.click = function disclosuresNew_click (event)// @startlock
 	{// @endlock
-			if($$('disclosuresNew2').getValue()){
-				sources.disclosures.query('DisclosureStatus =:1','New');
+
+			if($$('disclosuresNew').getValue()){
+				$$('disclosuresAll').setValue(false);
+				
+				if($$('disclosuresMine').getValue()){
+					sources.disclosures.query("DisclosureStatus ='New' AND Assoc_Users_D_Initials = 'MKA'");
+				}else{
+					sources.disclosures.query('DisclosureStatus =:1','New');
+				}
+				
 			}
 			else{
-				sources.disclosures.all();
+				if($$('disclosuresMine').getValue()){
+					sources.disclosures.query('Assoc_Users_D_Initials = :1','MKA');
+				}else{
+					sources.disclosures.all();
+				}
+				
 			}
 			//disclosureFilter();
 	};// @lock
@@ -79,10 +107,12 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 	};// @lock
 
 // @region eventManager// @startlock
-	WAF.addListener("dataGrid3", "onRowDraw", dataGrid3.onRowDraw, "WAF");
+	WAF.addListener("button4", "click", button4.click, "WAF");
+	WAF.addListener("disclosureGrid", "onRowDblClick", disclosureGrid.onRowDblClick, "WAF");
+	WAF.addListener("disclosureGrid", "onRowDraw", disclosureGrid.onRowDraw, "WAF");
 	WAF.addListener("disclosuresQuery", "click", disclosuresQuery.click, "WAF");
 	WAF.addListener("disclosuresMine", "click", disclosuresMine.click, "WAF");
-	WAF.addListener("disclosuresNew2", "click", disclosuresNew2.click, "WAF");
+	WAF.addListener("disclosuresNew", "click", disclosuresNew.click, "WAF");
 	WAF.addListener("disclosuresAll", "click", disclosuresAll.click, "WAF");
 	WAF.addListener("checkbox2", "click", checkbox2.click, "WAF");
 	WAF.addListener("menuItem2", "click", menuItem2.click, "WAF");
