@@ -7,7 +7,6 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 	var addToGroup = {};	// @button
 	var removeGroup = {};	// @button
 	var createGroup = {};	// @button
-	var restTest = {};	// @button
 	var loginBtn = {};	// @button
 	var docketsGrid = {};	// @dataGrid
 	var showDockets = {};	// @button
@@ -66,7 +65,7 @@ WAF.onAfterInit = function onAfterInit() {// @lock
        				 	}
     			});
 		}else{
-			sources.dockets.rest_Dockets('Create', useGroupID, newGroupName, publicGroup,
+			sources.dockets.rest_Dockets('Clear', useGroupID, newGroupName, publicGroup,
     			{onSuccess: function(event)
        			 {sources.groups.query('FileID = 9');}
     			});
@@ -105,7 +104,7 @@ WAF.onAfterInit = function onAfterInit() {// @lock
        				 	}
     			});
 		}else{
-			sources.dockets.rest_Dockets('Create', useGroupID, newGroupName, publicGroup,
+			sources.dockets.rest_Dockets('Add', useGroupID, newGroupName, publicGroup,
     			{onSuccess: function(event)
        			 {sources.groups.query('FileID = 9');}
     			});
@@ -114,10 +113,29 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 
 	removeGroup.click = function removeGroup_click (event)// @startlock
 	{// @endlock
-		//sources.groups.omitSelected( {onSuccess: function(evt) {sources.groups.removeGroup(evt.result);}}, $$("groupsGrid").getSelectedRows());
-	sources.groups.removeGroup( {onSuccess: function() {sources.groups.query('FileID = 9');}}, $$("groupsGrid").getSelectedRows());
+		//sources.groups.removeGroups( {onSuccess: function() {sources.groups.query('FileID = 9');}}, $$("groupsGrid").getSelectedRows());
 
+		var countRows = $$("groupsGrid").countSelected();
+		alert('countRows:'+countRows);
+		var countColl = $$("groupsGrid").source.length;
+		alert('countColl:'+countColl);
+
+		if(countRows != countColl){
+			$$('groupsGrid').reduceToSelected(
 		
+    			{onSuccess: function(event)
+       				{// ... handling of query
+        				sources.groups.rest_Groups('Delete', 
+    						{onSuccess: function(event)
+       							{sources.groups.query('FileID = 9');}});
+       				 	}
+    			});
+		}else{
+			sources.groups.rest_Groups('Delete',
+    			{onSuccess: function(event)
+       			 {sources.groups.query('FileID = 9');}
+    			});
+		}
 	};// @lock
 
 	createGroup.click = function createGroup_click (event)// @startlock
@@ -157,14 +175,6 @@ WAF.onAfterInit = function onAfterInit() {// @lock
        			 {sources.groups.query('FileID = 9');}
     			});
 		}
-	};// @lock
-
-	restTest.click = function restTest_click (event)// @startlock
-	{// @endlock
-		sources.dockets.query('Title == *t*',
-			{onSuccess:function(event){sources.dockets.rest_Dockets();
-			}});
-		
 	};// @lock
 
 	loginBtn.click = function loginBtn_click (event)// @startlock
@@ -392,7 +402,6 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 	WAF.addListener("addToGroup", "click", addToGroup.click, "WAF");
 	WAF.addListener("removeGroup", "click", removeGroup.click, "WAF");
 	WAF.addListener("createGroup", "click", createGroup.click, "WAF");
-	WAF.addListener("restTest", "click", restTest.click, "WAF");
 	WAF.addListener("loginBtn", "click", loginBtn.click, "WAF");
 	WAF.addListener("docketsGrid", "onRowClick", docketsGrid.onRowClick, "WAF");
 	WAF.addListener("showDockets", "click", showDockets.click, "WAF");
