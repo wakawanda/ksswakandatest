@@ -45,8 +45,10 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 
 	button1.click = function button1_click (event)// @startlock
 	{// @endlock
+		//query('GroupsID = :1', sources.groups.ID)
 		var filtered, search;
 		filtered = inCollection(sources.dockets, sources.groupItems_Xref.getEntityCollection(), {column:["ID","RecordID"],callback:function(){console.log("DONE");}} );
+
 	};// @lock
 
 	clearGroup.click = function clearGroup_click (event)// @startlock
@@ -70,7 +72,7 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 		var countColl = $$("docketsGrid").source.length;
 		//alert('countColl:'+countColl);
 
-		alert(useGroupID);
+		//alert(useGroupID);
 
 		if(countRows != countColl){
 			$$('docketsGrid').reduceToSelected(
@@ -442,7 +444,7 @@ function inCollection( haystack, needle, opts )
 	{
 		onSuccess:function(e)
 		{
-		 	console.log(e.entity);
+		 	//console.log(e.entity);
 	    	collection = e.entity[column[1]];
 
 		    actual_needle.push( collection.getValue() );
@@ -452,10 +454,10 @@ function inCollection( haystack, needle, opts )
 		 , atTheEnd:function(e)
 		 {
 
-			console.log(actual_needle);
+			//console.log(actual_needle);
 		    //run query
 		    filtered = haystack.query( column[0] + " in :1", actual_needle );
-		    console.log(filtered);
+		    //console.log(filtered);
 		 }
     });
     return true;
