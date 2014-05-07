@@ -3,6 +3,8 @@
 WAF.onAfterInit = function onAfterInit() {// @lock
 
 // @region namespaceDeclaration// @startlock
+	var groupsGrid = {};	// @dataGrid
+	var button1 = {};	// @button
 	var clearGroup = {};	// @button
 	var addToGroup = {};	// @button
 	var removeGroup = {};	// @button
@@ -30,44 +32,64 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 	var disclosuresNew = {};	// @checkbox
 	var menuItem2 = {};	// @menuItem
 // @endregion// @endlock
-
+	var dataGrid2 = {};	// @dataGrid
+	var go_filter = {};	// @button
 // eventHandlers// @lock
+
+	groupsGrid.onRowClick = function groupsGrid_onRowClick (event)// @startlock
+	{// @endlock
+		var the_id;
+		the_id = sources.groups.ID;
+		sources.groupItems_Xref.query('GroupsID = :1',the_id);
+	};// @lock
+
+	button1.click = function button1_click (event)// @startlock
+	{// @endlock
+		var filtered, search;
+		filtered = inCollection(sources.dockets, sources.groupItems_Xref.getEntityCollection(), {column:["ID","RecordID"],callback:function(){console.log("DONE");}} );
+	};// @lock
 
 	clearGroup.click = function clearGroup_click (event)// @startlock
 	{// @endlock
 		var newGroupName = $$('groupsNewName').getValue();//groupsName
-		alert('newGroupName:' + newGroupName);
+		//alert('newGroupName:' + newGroupName);
 		var useGroupID = $$('groupsComboBox').getValue();//groupsComboBox
-		alert('Group ID:' + useGroupID);
+		//alert('Group ID:' + useGroupID);
 		var groupAction = $$('groupsTypeRadioGroup').getValue();//groupsRadioGroup...newGroup/useGroup
-		alert('groupAction:' + groupAction);
+		//alert('groupAction:' + groupAction);
 		var publicGroup = '';//groupsPublic
 		if($$('groupsPublic').getValue()){
 			publicGroup = 'True';
 		}else{
 			publicGroup = 'False';
 		}
-		alert('publicGroup:' + publicGroup);
+		//alert('publicGroup:' + publicGroup);
 		
 		var countRows = $$("docketsGrid").countSelected();
-		alert('countRows:'+countRows);
+		//alert('countRows:'+countRows);
 		var countColl = $$("docketsGrid").source.length;
-		alert('countColl:'+countColl);
+		//alert('countColl:'+countColl);
+
+		alert(useGroupID);
 
 		if(countRows != countColl){
 			$$('docketsGrid').reduceToSelected(
 		
     			{onSuccess: function(event)
        				{// ... handling of query
-        				sources.dockets.rest_Dockets('Clear', useGroupID, newGroupName, publicGroup,
+       				alert(useGroupID);
+        				sources.dockets.rest_Dockets('Clear', groupAction, useGroupID, newGroupName, publicGroup,
     						{onSuccess: function(event)
-       							{sources.groups.query('FileID = 9');}});
+       							{sources.groups.query('FileID = 9');
+       							sources.groups.collectionRefresh();}});
        				 	}
     			});
 		}else{
-			sources.dockets.rest_Dockets('Clear', useGroupID, newGroupName, publicGroup,
+			alert(useGroupID);
+			sources.dockets.rest_Dockets('Clear', groupAction, useGroupID, newGroupName, publicGroup,
     			{onSuccess: function(event)
-       			 {sources.groups.query('FileID = 9');}
+       			 {sources.groups.query('FileID = 9');
+       			 sources.groups.collectionRefresh();}
     			});
 		}
 	};// @lock
@@ -75,36 +97,36 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 	addToGroup.click = function addToGroup_click (event)// @startlock
 	{// @endlock
 		var newGroupName = $$('groupsNewName').getValue();//groupsName
-		alert('newGroupName:' + newGroupName);
+		//alert('newGroupName:' + newGroupName);
 		var useGroupID = $$('groupsComboBox').getValue();//groupsComboBox
-		alert('Group ID:' + useGroupID);
+		//alert('Group ID:' + useGroupID);
 		var groupAction = $$('groupsTypeRadioGroup').getValue();//groupsRadioGroup...newGroup/useGroup
-		alert('groupAction:' + groupAction);
+		//alert('groupAction:' + groupAction);
 		var publicGroup = '';//groupsPublic
 		if($$('groupsPublic').getValue()){
 			publicGroup = 'True';
 		}else{
 			publicGroup = 'False';
 		}
-		alert('publicGroup:' + publicGroup);
+		//alert('publicGroup:' + publicGroup);
 		
 		var countRows = $$("docketsGrid").countSelected();
-		alert('countRows:'+countRows);
+		//alert('countRows:'+countRows);
 		var countColl = $$("docketsGrid").source.length;
-		alert('countColl:'+countColl);
+		//alert('countColl:'+countColl);
 
 		if(countRows != countColl){
 			$$('docketsGrid').reduceToSelected(
 		
     			{onSuccess: function(event)
        				{// ... handling of query
-        				sources.dockets.rest_Dockets('Add', useGroupID, newGroupName, publicGroup,
+        				sources.dockets.rest_Dockets('Add', groupAction, useGroupID, newGroupName, publicGroup,
     						{onSuccess: function(event)
        							{sources.groups.query('FileID = 9');}});
        				 	}
     			});
 		}else{
-			sources.dockets.rest_Dockets('Add', useGroupID, newGroupName, publicGroup,
+			sources.dockets.rest_Dockets('Add', groupAction, useGroupID, newGroupName, publicGroup,
     			{onSuccess: function(event)
        			 {sources.groups.query('FileID = 9');}
     			});
@@ -113,12 +135,13 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 
 	removeGroup.click = function removeGroup_click (event)// @startlock
 	{// @endlock
-		//sources.groups.removeGroups( {onSuccess: function() {sources.groups.query('FileID = 9');}}, $$("groupsGrid").getSelectedRows());
+		
 
+if(true){
 		var countRows = $$("groupsGrid").countSelected();
-		alert('countRows:'+countRows);
+		//alert('countRows:'+countRows);
 		var countColl = $$("groupsGrid").source.length;
-		alert('countColl:'+countColl);
+		//alert('countColl:'+countColl);
 
 		if(countRows != countColl){
 			$$('groupsGrid').reduceToSelected(
@@ -136,41 +159,42 @@ WAF.onAfterInit = function onAfterInit() {// @lock
        			 {sources.groups.query('FileID = 9');}
     			});
 		}
+	}
 	};// @lock
 
 	createGroup.click = function createGroup_click (event)// @startlock
 	{// @endlock
 		var newGroupName = $$('groupsNewName').getValue();//groupsName
-		alert('newGroupName:' + newGroupName);
+		//alert('newGroupName:' + newGroupName);
 		var useGroupID = $$('groupsComboBox').getValue();//groupsComboBox
-		alert('Group ID:' + useGroupID);
+		//alert('Group ID:' + useGroupID);
 		var groupAction = $$('groupsTypeRadioGroup').getValue();//groupsRadioGroup...newGroup/useGroup
-		alert('groupAction:' + groupAction);
+		//alert('groupAction:' + groupAction);
 		var publicGroup = '';//groupsPublic
 		if($$('groupsPublic').getValue()){
 			publicGroup = 'True';
 		}else{
 			publicGroup = 'False';
 		}
-		alert('publicGroup:' + publicGroup);
+		//alert('publicGroup:' + publicGroup);
 		
 		var countRows = $$("docketsGrid").countSelected();
-		alert('countRows:'+countRows);
+		//alert('countRows:'+countRows);
 		var countColl = $$("docketsGrid").source.length;
-		alert('countColl:'+countColl);
+		//alert('countColl:'+countColl);
 
 		if(countRows != countColl){
 			$$('docketsGrid').reduceToSelected(
 		
     			{onSuccess: function(event)
        				{// ... handling of query
-        				sources.dockets.rest_Dockets('Create', useGroupID, newGroupName, publicGroup,
+        				sources.dockets.rest_Dockets('Create', groupAction, useGroupID, newGroupName, publicGroup,
     						{onSuccess: function(event)
        							{sources.groups.query('FileID = 9');}});
        				 	}
     			});
 		}else{
-			sources.dockets.rest_Dockets('Create', useGroupID, newGroupName, publicGroup,
+			sources.dockets.rest_Dockets('Create', groupAction, useGroupID, newGroupName, publicGroup,
     			{onSuccess: function(event)
        			 {sources.groups.query('FileID = 9');}
     			});
@@ -397,7 +421,49 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 		//$$("containerDisclosureFilter").hide();
 	};// @lock
 
+//Executes an "in" comparison
+// @param haystack Datasource pointer.
+// @param needle Entity collection. Used to filter datasource
+// @param opts Object. Can pass onComplete callback and column key.
+function inCollection( haystack, needle, opts )
+{
+    //declare
+    var needle_arr, filtered, actual_needle, collection, column, callback ;
+   	
+   	//get column comparison object
+   	column = opts.column;
+    //get callback
+    callback = opts.callback;
+    
+	actual_needle = [];
+
+    //convert needle collection to array for in clausevar test = true;
+	needle.forEach(
+	{
+		onSuccess:function(e)
+		{
+		 	console.log(e.entity);
+	    	collection = e.entity[column[1]];
+
+		    actual_needle.push( collection.getValue() );
+
+
+		 }
+		 , atTheEnd:function(e)
+		 {
+
+			console.log(actual_needle);
+		    //run query
+		    filtered = haystack.query( column[0] + " in :1", actual_needle );
+		    console.log(filtered);
+		 }
+    });
+    return true;
+}
+
 // @region eventManager// @startlock
+	WAF.addListener("groupsGrid", "onRowClick", groupsGrid.onRowClick, "WAF");
+	WAF.addListener("button1", "click", button1.click, "WAF");
 	WAF.addListener("clearGroup", "click", clearGroup.click, "WAF");
 	WAF.addListener("addToGroup", "click", addToGroup.click, "WAF");
 	WAF.addListener("removeGroup", "click", removeGroup.click, "WAF");
