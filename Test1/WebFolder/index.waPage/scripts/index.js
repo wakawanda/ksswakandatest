@@ -3,6 +3,7 @@
 WAF.onAfterInit = function onAfterInit() {// @lock
 
 // @region namespaceDeclaration// @startlock
+	var removeGroups2 = {};	// @button
 	var groupsGrid = {};	// @dataGrid
 	var button1 = {};	// @button
 	var clearGroup = {};	// @button
@@ -35,6 +36,38 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 	var dataGrid2 = {};	// @dataGrid
 	var go_filter = {};	// @button
 // eventHandlers// @lock
+
+	removeGroups2.click = function removeGroups2_click (event)// @startlock
+	{// @endlock
+		var countRows = $$("groupsGrid").countSelected();
+		//alert('countRows:'+countRows);
+		var countColl = $$("groupsGrid").source.length;
+		//alert('countColl:'+countColl);
+
+		//alert(useGroupID);
+if(false){
+		if(countRows != countColl){
+			$$('groupsGrid').reduceToSelected(
+		
+    			{onSuccess: function(event)
+       				{// ... handling of query
+       				//alert(useGroupID);
+        				sources.groups.remove(
+    						{onSuccess: function(event)
+       							{sources.groups.query('FileID = 9');
+       							sources.groups.collectionRefresh();}});
+       				 	}
+    			});
+		}else{
+			//alert(useGroupID);
+			sources.groups.remove(
+    			{onSuccess: function(event)
+       			 {sources.groups.query('FileID = 9');
+       			 sources.groups.collectionRefresh();}
+    			});
+		}
+	}
+	};// @lock
 
 	groupsGrid.onRowClick = function groupsGrid_onRowClick (event)// @startlock
 	{// @endlock
@@ -79,7 +112,7 @@ WAF.onAfterInit = function onAfterInit() {// @lock
 		
     			{onSuccess: function(event)
        				{// ... handling of query
-       				alert(useGroupID);
+       				//alert(useGroupID);
         				sources.dockets.rest_Dockets('Clear', groupAction, useGroupID, newGroupName, publicGroup,
     						{onSuccess: function(event)
        							{sources.groups.query('FileID = 9');
@@ -87,7 +120,7 @@ WAF.onAfterInit = function onAfterInit() {// @lock
        				 	}
     			});
 		}else{
-			alert(useGroupID);
+			//alert(useGroupID);
 			sources.dockets.rest_Dockets('Clear', groupAction, useGroupID, newGroupName, publicGroup,
     			{onSuccess: function(event)
        			 {sources.groups.query('FileID = 9');
@@ -464,6 +497,7 @@ function inCollection( haystack, needle, opts )
 }
 
 // @region eventManager// @startlock
+	WAF.addListener("removeGroups2", "click", removeGroups2.click, "WAF");
 	WAF.addListener("groupsGrid", "onRowClick", groupsGrid.onRowClick, "WAF");
 	WAF.addListener("button1", "click", button1.click, "WAF");
 	WAF.addListener("clearGroup", "click", clearGroup.click, "WAF");
